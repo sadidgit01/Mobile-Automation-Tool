@@ -1,24 +1,17 @@
 package com.example.zapierlogin
-import androidx.lifecycle.ViewModelProvider
-import android.widget.Toast
-
-import com.google.firebase.auth.FirebaseAuth
-import com.example.zapierlogin.SignInViewModelFactory
-
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.runtime.*
+import androidx.lifecycle.ViewModelProvider
 import com.example.zapierlogin.ui.theme.ZapierLoginTheme
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.*
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
 
 class MainActivity : ComponentActivity() {
 
@@ -26,9 +19,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        
-
 
         // ✅ Google Sign-In Options
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -41,13 +31,21 @@ class MainActivity : ComponentActivity() {
         setContent {
             ZapierLoginTheme {
                 Surface {
-                    val currentUser = FirebaseAuth.getInstance().currentUser
+                    // ✅ Use state to track login
+                    var isLoggedIn by remember { mutableStateOf(false) }
+                    var userEmail by remember { mutableStateOf("") }
 
+                    LaunchedEffect(Unit) {
+                        val currentUser = FirebaseAuth.getInstance().currentUser
+                        println("👤 Firebase currentUser: $currentUser")
+                        if (currentUser != null) {
+                            isLoggedIn = true
+                            userEmail = currentUser.email ?: "Unknown User"
+                        }
+                    }
 
-                    println("👤 Firebase currentUser: $currentUser")
-
-                    if (currentUser != null) {
-                        HomeScreen(userEmail = currentUser.email ?: "Unknown User")
+                    if (isLoggedIn) {
+                        HomeScreen(userEmail = userEmail)
                     } else {
                         SignInScreen(
                             onGoogleSignInClick = {
@@ -58,8 +56,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-
-
     }
 
     // ✅ Activity Result Launcher
@@ -82,6 +78,9 @@ class MainActivity : ComponentActivity() {
                 viewModel.firebaseAuthWithGoogle(idToken) { success ->
                     if (success) {
                         Toast.makeText(this, "✅ Login Successful!", Toast.LENGTH_SHORT).show()
+
+                        // ✅ Reload activity to reflect new login state
+                        recreate()
                     } else {
                         Toast.makeText(this, "❌ Login Failed", Toast.LENGTH_SHORT).show()
                     }
@@ -95,9 +94,7 @@ class MainActivity : ComponentActivity() {
             e.printStackTrace()
         }
     }
-
 }
-
 
 
 // This is just to show

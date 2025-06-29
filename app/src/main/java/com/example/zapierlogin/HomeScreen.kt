@@ -7,9 +7,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import android.app.Activity
+import androidx.compose.ui.platform.LocalContext
+import com.google.firebase.auth.FirebaseAuth
+
 
 @Composable
 fun HomeScreen(userEmail: String) {
+    val context = LocalContext.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -22,5 +28,15 @@ fun HomeScreen(userEmail: String) {
         Text("You're logged in as:", fontSize = 18.sp)
         Spacer(modifier = Modifier.height(4.dp))
         Text(userEmail, fontSize = 16.sp, color = MaterialTheme.colorScheme.primary)
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // 🚪 Sign Out Button
+        Button(onClick = {
+            FirebaseAuth.getInstance().signOut()
+            (context as Activity).recreate() // Restarts MainActivity to reload UI
+        }) {
+            Text("🚪 Sign Out")
+        }
     }
 }
+
