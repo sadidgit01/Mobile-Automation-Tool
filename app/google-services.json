@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "784098560647",
+    "project_id": "zapiercloneapp",
+    "storage_bucket": "zapiercloneapp.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784098560647:android:31133cf191426918c20622",
+        "android_client_info": {
+          "package_name": "com.example.zapierlogin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "784098560647-ohudeg0oun84da6s53d374qfd6tkmt5p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.zapierlogin",
+            "certificate_hash": "72b83812f89f72c9f03b4ce050ed61ab8b456f9b"
+          }
+        },
+        {
+          "client_id": "784098560647-rbgq4q7rjuhigivquv0er8f217sscv9k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAM2WWCpISEzm2yMsRtmUkdwasKPYYaAFo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "784098560647-rbgq4q7rjuhigivquv0er8f217sscv9k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
