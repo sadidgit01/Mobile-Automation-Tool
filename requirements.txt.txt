@@ -1,0 +1,6 @@
+cmake
+ninja
+setuptools
+scikit-build
+transformers==4.37.0
+sentencepiece
